@@ -32,6 +32,7 @@
 #include "comm.h"
 #include "mqtt.h"
 #include "restart.h"
+#include "custom_sensors.h"
 
 Converter converter;
 char registryIDs[32]; //Holds the registries to query
@@ -380,6 +381,7 @@ void setup()
   mqttSerial.println("OK!");
 
   initRegistries();
+  customSensorsSetup(mqttSerial);
   mqttSerial.print("ESPAltherma started!");
 }
 
@@ -420,6 +422,8 @@ void loop()
       //waitLoop(500);//wait .5sec between registries
     }
   }
+  customSensorsRead();
+  customSensorsAppendToJson(jsonbuff, MAX_MSG_SIZE);
   sendValues();//Send the full json message
   mqttSerial.printf("Done. Waiting %ld ms...", FREQUENCY - millis() + start);
   waitLoop(FREQUENCY - millis() + start);
