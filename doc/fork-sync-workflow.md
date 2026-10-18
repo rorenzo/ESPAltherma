@@ -78,7 +78,7 @@ git push origin custom/hybrid-ds18b20
 
 ## Build and upload (Fedora workstation)
 
-`deploy.sh` wraps build, USB flash and OTA update:
+`deploy.sh` wraps build, USB flash and OTA update. Full guide (Italian): `deploy.md`.
 
 ```bash
 ./deploy.sh setup     # once: PlatformIO in .venv-pio, checks the dialout group
