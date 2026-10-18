@@ -137,6 +137,9 @@
 //#include "def/PROTOCOL_S_ROTEX.h"
 //#include "def/PROTOCOL_S.h"
 
+//Fork: Hybrid with gas boiler and no DHW tank (entries copied from ALTHERMA(HYBRID).h)
+#include "def/Fork_Hybrid_gas_boiler.h"
+
 
 #ifndef LABELDEF
 #warning "NO DEFINITION SELECTED: Please select your heat pump definition in /src/setup.h -- Using default."
