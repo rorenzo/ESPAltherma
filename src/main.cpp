@@ -432,6 +432,9 @@ void setup()
   mqttSerial.print("Setting up wifi...");
   setup_wifi();
   ArduinoOTA.setHostname("ESPAltherma");
+#ifdef OTA_PASSWORD
+  ArduinoOTA.setPassword(OTA_PASSWORD);//Fork: defined in src/secrets.h
+#endif
   ArduinoOTA.onStart([]() {
     busy = true;
   });
