@@ -16,3 +16,4 @@ include/def/mydef.h
 .DS_Store
 include/.DS_Store
 src/secrets.h
+.venv-pio/

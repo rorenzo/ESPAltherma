@@ -24,6 +24,7 @@ Keep them in separate files, with minimal hooks in upstream files:
 | `include/def/Fork_Hybrid_gas_boiler.h` | Hybrid profile without DHW (entries copied from `ALTHERMA(HYBRID).h`) |
 | `include/custom_sensors*.h`, `src/custom_sensors.cpp` | DS18B20 probes, see `doc/custom-ds18b20.md` |
 | `contrib/compare_attr_snapshots.py` | compares two `espaltherma/ATTR` snapshots |
+| `deploy.sh` | build, USB flash, OTA update |
 
 Hooks in upstream files:
 
@@ -71,20 +72,31 @@ Before pushing, check what differs from upstream, build, and flash:
 
 ```bash
 git diff --stat main..custom/hybrid-ds18b20   # only fork files and hooks
-pio run -e esp32-ds18b20
+./deploy.sh build
 git push origin custom/hybrid-ds18b20
 ```
 
-## Upload
+## Build and upload (Fedora workstation)
 
-- `esp32-ds18b20`: USB serial upload.
-- `esp32-ds18b20-ota`: network upload to `ESPAltherma.local`. The OTA password
-  defined in `src/secrets.h` must also be exported before the upload:
+`deploy.sh` wraps build, USB flash and OTA update:
 
 ```bash
-export ESPALTHERMA_OTA_PASSWORD='...'
-pio run -e esp32-ds18b20-ota -t upload
+./deploy.sh setup     # once: PlatformIO in .venv-pio, checks the dialout group
+./deploy.sh check     # src/secrets.h complete, tools, Git state
+./deploy.sh build     # compile env esp32-ds18b20
+./deploy.sh test      # upstream unit tests (env native)
+./deploy.sh usb       # first flash or recovery, USB cable
+./deploy.sh ota       # network update to ESPAltherma.local (or: ./deploy.sh ota <ip>)
+./deploy.sh monitor   # serial monitor
 ```
+
+`ota` reads `OTA_PASSWORD` from `src/secrets.h`, checks that the device answers,
+and checks that firewalld lets the ESP connect back on TCP 40000 (the Fedora
+Workstation zone already allows ports 1025-65535). Run it from the workstation,
+not from a container: the ESP must reach the host during the upload.
+
+When changing the OTA password, upload the new firmware with the old one:
+`ESPALTHERMA_OTA_PASSWORD_CURRENT='<old>' ./deploy.sh ota`.
 
 Before flashing a new version, take a snapshot of `espaltherma/ATTR`, and
 take another one afterwards: `contrib/compare_attr_snapshots.py` lists the
