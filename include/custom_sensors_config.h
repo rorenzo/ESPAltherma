@@ -6,7 +6,7 @@
 // 1-Wire temperature probes (DS18B20) on a shared bus.
 // Requires OneWire + DallasTemperature (env:esp32-ds18b20 in platformio.ini).
 // Probe 1: DHW temperature at the gas boiler outlet.
-#define CUSTOM_TEMP_SENSOR_BUS_PIN 25
+#define CUSTOM_TEMP_SENSOR_BUS_PIN 19
 
 // MQTT/JSON field names. Keep letters/numbers/underscore for easier integrations.
 #define CUSTOM_MQTT_TEMP_COUNT_KEY "ExtTempProbeCount"
