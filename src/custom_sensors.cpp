@@ -33,6 +33,9 @@
 #ifndef CUSTOM_TEMP2_ROM
 #define CUSTOM_TEMP2_ROM ""
 #endif
+#ifndef CUSTOM_TEMP2_ENABLED
+#define CUSTOM_TEMP2_ENABLED 1
+#endif
 
 namespace
 {
@@ -180,6 +183,7 @@ void customSensorsSetup(Stream &logStream)
     }
   }
 
+#if CUSTOM_TEMP2_ENABLED
   if (hasRomString(CUSTOM_TEMP2_ROM))
   {
     s_temp2UseAddress = parseRomString(CUSTOM_TEMP2_ROM, s_temp2Address);
@@ -192,6 +196,7 @@ void customSensorsSetup(Stream &logStream)
       logLine("CUSTOM_TEMP2_ROM not found on bus");
     }
   }
+#endif
 #elif defined(CUSTOM_TEMP_SENSOR_BUS_PIN)
   logLine("Custom temp probes requested but OneWire/DallasTemperature libs are missing");
 #else
@@ -205,7 +210,9 @@ void customSensorsRead()
   s_tempSensors.requestTemperatures();
   s_probeCount = s_tempSensors.getDeviceCount();
   s_tempProbe1 = s_temp1UseAddress ? s_tempSensors.getTempC(s_temp1Address) : s_tempSensors.getTempCByIndex(CUSTOM_TEMP1_INDEX);
+#if CUSTOM_TEMP2_ENABLED
   s_tempProbe2 = s_temp2UseAddress ? s_tempSensors.getTempC(s_temp2Address) : s_tempSensors.getTempCByIndex(CUSTOM_TEMP2_INDEX);
+#endif
 #endif
 }
 
@@ -222,6 +229,7 @@ void customSensorsAppendToJson(char *jsonBuffer, size_t jsonBufferSize)
     appendJson(jsonBuffer, jsonBufferSize, "\"%s\":\"NA\",", CUSTOM_MQTT_TEMP1_KEY);
   }
 
+#if CUSTOM_TEMP2_ENABLED
   if (isValidTemp(s_tempProbe2))
   {
     appendJson(jsonBuffer, jsonBufferSize, "\"%s\":%.2f,", CUSTOM_MQTT_TEMP2_KEY, s_tempProbe2);
@@ -230,8 +238,11 @@ void customSensorsAppendToJson(char *jsonBuffer, size_t jsonBufferSize)
   {
     appendJson(jsonBuffer, jsonBufferSize, "\"%s\":\"NA\",", CUSTOM_MQTT_TEMP2_KEY);
   }
+#endif
 #elif defined(CUSTOM_TEMP_SENSOR_BUS_PIN)
   appendJson(jsonBuffer, jsonBufferSize, "\"%s\":\"LIB_MISSING\",", CUSTOM_MQTT_TEMP1_KEY);
+#if CUSTOM_TEMP2_ENABLED
   appendJson(jsonBuffer, jsonBufferSize, "\"%s\":\"LIB_MISSING\",", CUSTOM_MQTT_TEMP2_KEY);
+#endif
 #endif
 }

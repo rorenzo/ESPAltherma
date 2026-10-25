@@ -22,6 +22,7 @@ File `include/custom_sensors_config.h`:
 
 - `CUSTOM_TEMP_SENSOR_BUS_PIN`, default `25`
 - `CUSTOM_MQTT_*_KEY` to rename the JSON fields
+- `CUSTOM_TEMP2_ENABLED`, set to `0` to omit the second probe from readings and MQTT
 - `CUSTOM_TEMP1_INDEX` / `CUSTOM_TEMP2_INDEX` for index-based mapping
 - `CUSTOM_TEMP1_ROM` / `CUSTOM_TEMP2_ROM` for a fixed mapping by ROM ID (recommended)
 

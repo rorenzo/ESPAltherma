@@ -13,6 +13,9 @@
 #define CUSTOM_MQTT_TEMP1_KEY "ExtTemp1"
 #define CUSTOM_MQTT_TEMP2_KEY "ExtTemp2"
 
+// Enable the optional second probe only when it is actually installed.
+#define CUSTOM_TEMP2_ENABLED 0
+
 // DS18B20 mapping mode:
 // - Default uses the index on the 1-Wire bus (0 and 1).
 // - Set ROM IDs for a stable mapping (recommended): the boot log on
@@ -22,5 +25,5 @@
 
 // Optional ROM IDs as 16 hex chars (no spaces, no separators), example:
 // #define CUSTOM_TEMP1_ROM "28FF64A2B31604B3"
-#define CUSTOM_TEMP1_ROM ""
+#define CUSTOM_TEMP1_ROM "288CA3190000005F"
 #define CUSTOM_TEMP2_ROM ""

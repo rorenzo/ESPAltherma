@@ -52,4 +52,5 @@ LabelDef labelDefs[] = {
   {0x64,3,105,2,-1,"BE_COP"},
   {0x64,5,105,2,1,"Hybrid Heating Target Temp."},
   {0x64,7,105,2,1,"Boiler Heating Target Temp."},
+  {0x60,7,105,2,1,"DHW setpoint"},
 };
