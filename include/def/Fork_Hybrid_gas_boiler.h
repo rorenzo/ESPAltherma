@@ -18,8 +18,13 @@ LabelDef labelDefs[] = {
   {0x10,0,217,1,-1,"Operation Mode"},
   {0x60,2,315,1,-1,"I/U operation mode"},
   {0x10,1,307,1,-1,"Thermostat ON/OFF"},
+  // Diagnostic bits: interpretation and support must be validated on the unit.
+  {0x10,1,306,1,-1,"Restart standby"},
+  {0x10,1,305,1,-1,"Startup Control"},
+  {0x10,1,301,1,-1,"Demand Signal"},
   {0x60,2,303,1,-1,"I/U Thermostat ON/OFF"},
   {0x62,2,303,1,-1,"Space heating Operation ON/OFF"},
+  {0x62,7,304,1,-1,"Main RT Heating"},
   {0x10,1,304,1,-1,"Defrost Operation"},
   {0x10,4,203,1,-1,"Error type"},
   {0x10,5,204,1,-1,"Error Code"},
